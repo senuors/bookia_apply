@@ -1,14 +1,13 @@
 import 'package:bookia_apply/core/constants/app_images.dart';
 import 'package:bookia_apply/core/routes/navigation.dart';
-import 'package:bookia_apply/features/auth/presentation/pages/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
+import '../../core/routes/roues.dart';
 import '../../core/utils/app_colors.dart';
 import '../../core/utils/text_style.dart';
 import '../../core/widgets/main_button.dart';
-import '../auth/presentation/pages/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -36,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
                 Main_Button(
                   text: 'Login',
                   onPressed: () {
-                    pushReplacementTo(context, LoginScreen());
+                    pushReplacementTo(context, Routes.login);
                   },
                 ),
                 Gap(12),
@@ -44,7 +43,7 @@ class WelcomeScreen extends StatelessWidget {
                   text: 'Register',
                   bgColor: AppColors.accentColor,
                   onPressed: () {
-                    pushReplacementTo(context, RegisterScreen());
+                    pushReplacementTo(context, Routes.register);
                   },
                   textColor: AppColors.darkColor,
                 ),

@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/routes/navigation.dart';
+import '../../../../core/routes/roues.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
@@ -14,7 +15,6 @@ import '../../../../core/widgets/main_button.dart';
 import '../../../../core/widgets/password_text_form_field.dart';
 import '../../data/models/request/auth_params.dart';
 import '../cubit/auth_cubit.dart';
-import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -47,10 +47,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (state is AuthLoadingState) {
             showLoadingDialog(context);
           } else if (state is AuthErrorState) {
-            Navigator.pop(context);
+            pop(context);
             showErrorDialog(context, 'Auth Failed ..');
           } else if (state is AuthSuccessState) {
             // push to home
+            pushToBase(context, Routes.homescreen);
+
             print('Auth Success');
           }
         },
@@ -167,7 +169,7 @@ class RowBottomNaviBar extends StatelessWidget {
         Text('Already have an account? ', style: TextStyles.textStyle15),
         TextButton(
           onPressed: () {
-            pushReplacementTo(context, LoginScreen());
+            pushReplacementTo(context, Routes.login);
           },
           child: Text(
             'Login Now',

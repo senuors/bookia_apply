@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
 import '../../core/constants/app_images.dart';
+import '../../core/routes/roues.dart';
 import '../../core/utils/text_style.dart';
-import '../welcome/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
-      pushReplacementTo(context, WelcomeScreen());
+      pushReplacementTo(context, Routes.welcome);
     });
     super.initState();
   }

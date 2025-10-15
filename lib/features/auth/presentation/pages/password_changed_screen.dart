@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/routes/roues.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/widgets/main_button.dart';
-import 'login_screen.dart';
 
 class PasswordChangedScreen extends StatelessWidget {
   const PasswordChangedScreen({super.key});
@@ -37,7 +37,7 @@ class PasswordChangedScreen extends StatelessWidget {
             Main_Button(
               text: 'Back to Login',
               onPressed: () {
-                pushReplacementTo(context, LoginScreen());
+                pushReplacementTo(context, Routes.login);
               },
             ),
             Gap(12),

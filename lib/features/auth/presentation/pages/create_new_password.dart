@@ -1,10 +1,10 @@
 import 'package:bookia_apply/core/constants/app_images.dart';
 import 'package:bookia_apply/core/routes/navigation.dart';
-import 'package:bookia_apply/features/auth/presentation/pages/password_changed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/routes/roues.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/widgets/main_button.dart';
@@ -95,7 +95,7 @@ class _CreateNewPassword extends State<CreateNewPassword> {
                   text: 'Reset Password',
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      pushReplacementTo(context, PasswordChangedScreen());
+                      pushReplacementTo(context, Routes.passchanges);
                     }
                   },
                 ),

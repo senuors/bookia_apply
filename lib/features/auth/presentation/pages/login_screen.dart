@@ -1,20 +1,21 @@
 import 'package:bookia_apply/core/constants/app_images.dart';
 import 'package:bookia_apply/core/routes/navigation.dart';
-import 'package:bookia_apply/features/auth/presentation/pages/register_screen.dart';
+import 'package:bookia_apply/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/routes/roues.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
+import '../../../../core/widgets/dialogs.dart';
 import '../../../../core/widgets/main_button.dart';
 import '../../../../core/widgets/password_text_form_field.dart';
 import '../../data/models/request/auth_params.dart';
 import '../cubit/auth_cubit.dart';
 import '../widgets/social_login.dart';
-import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,76 +44,95 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsetsGeometry.all(22),
+        padding: EdgeInsets.all(22),
 
         child: SingleChildScrollView(
           child: Form(
             key: cubit.formKey,
-            child: Column(
-              children: [
-                Text(
-                  'Welcome back! Glad to see you, Again!',
-                  style: TextStyles.textStyle30,
-                ),
-                Gap(24),
-                CustomTextFormField(
-                  controller: cubit.emailController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                  hintText: 'Enter your email ',
-                ),
-                Gap(12),
-                PasswordTextFormField(
-                  controller: cubit.passwordController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
-                  hintText: 'Enter your password ',
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [SvgPicture.asset(AppImages.eyeSvg)],
+            child: BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthLoadingState) {
+                  showLoadingDialog(context);
+                } else if (state is AuthErrorState) {
+                  pop(context);
+                  showErrorDialog(context, 'Auth Failed ..');
+                } else if (state is AuthSuccessState) {
+                  // push to home
+                  pop(context);
+
+                  pushToBase(context, Routes.homescreen);
+                }
+              },
+              child: Column(
+                children: [
+                  Text(
+                    'Welcome back! Glad to see you, Again!',
+                    style: TextStyles.textStyle30,
                   ),
-                ),
-                Gap(12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      pushTo(context, ForgetPassword());
+                  Gap(24),
+                  CustomTextFormField(
+                    controller: cubit.emailController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      return null;
                     },
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyles.textStyle15,
+                    hintText: 'Enter your email ',
+                  ),
+                  Gap(12),
+                  PasswordTextFormField(
+                    controller: cubit.passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                    hintText: 'Enter your password ',
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [SvgPicture.asset(AppImages.eyeSvg)],
                     ),
                   ),
-                ),
-                Gap(12),
-                Main_Button(
-                  text: 'Login',
-                  onPressed: () {
-                    if (cubit.formKey.currentState!.validate()) {
-                      print('Login successful');
-                      context.read<AuthCubit>().login(
-                        AuthParams(
-                          email: cubit.emailController.text,
-                          password: cubit.passwordController.text,
-                        ),
-                      );
-                    }
-                  },
-                ),
-                Gap(24),
-                SocialLogin(),
-              ],
+                  Gap(12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {
+                        pushTo(
+                          context,
+                          Routes.forgetpassword,
+                          extra: cubit.emailController.text,
+                        );
+                      },
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyles.textStyle15,
+                      ),
+                    ),
+                  ),
+                  Gap(12),
+                  Main_Button(
+                    text: 'Login',
+                    onPressed: () {
+                      if (cubit.formKey.currentState!.validate()) {
+                        context.read<AuthCubit>().login(
+                          AuthParams(
+                            email: cubit.emailController.text,
+                            password: cubit.passwordController.text,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  Gap(24),
+
+                  SocialLogin(),
+                ],
+              ),
             ),
           ),
         ),
@@ -136,7 +156,7 @@ class RowBottomNaviBar extends StatelessWidget {
         Text('Don\'t have an account? ', style: TextStyles.textStyle15),
         TextButton(
           onPressed: () {
-            pushReplacementTo(context, RegisterScreen());
+            pushReplacementTo(context, Routes.register);
           },
           child: Text(
             'Register',

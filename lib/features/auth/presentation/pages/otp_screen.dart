@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/routes/roues.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/widgets/main_button.dart';
 import '../widgets/pipput_package.dart';
-import 'create_new_password.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -62,7 +62,7 @@ class _OtpScreen extends State<OtpScreen> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       print('Login successful');
-                      pushReplacementTo(context, CreateNewPassword());
+                      pushReplacementTo(context, Routes.passchanges);
                     }
                   },
                 ),
