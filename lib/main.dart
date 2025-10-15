@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(foregroundColor: AppColors.darkColor),
         ),
-        fontFamily: AppFonts.DMSerifDisplay,
+        fontFamily: AppFonts.dmserifdisplay,
         scaffoldBackgroundColor: AppColors.backgroundColor,
         appBarTheme: AppBarTheme(
           surfaceTintColor: Colors.transparent,
